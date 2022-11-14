@@ -1,13 +1,15 @@
 package main
 
 import (
+	"jackk-doe/go-crud-api/initializers"
+
 	"github.com/gin-gonic/gin"
 )
 
-// Load .env file in init(), which run before main()
 func init() {
-	// TODO : load .env
-	// TODO : initialize Database
+	// Load .env & Connect to DB, init() runs before main()
+	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
 }
 
 // NOTE : Suggest debug with 'CompileDaemon -command="./go-crud-api"' command
