@@ -1,6 +1,7 @@
 package main
 
 import (
+	"jackk-doe/go-crud-api/controllers"
 	"jackk-doe/go-crud-api/initializers"
 	"os"
 
@@ -28,6 +29,8 @@ func main() {
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{"Test": "Hello Go!"})
 	})
+
+	r.POST("/post", controllers.PostCreate)
 
 	r.Run(":" + port)
 }
