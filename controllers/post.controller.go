@@ -54,3 +54,30 @@ func PostGetOneById(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"post": post})
 }
+
+func PostUpdate(c *gin.Context) {
+	id := c.Param("id")
+
+	var updateData models.PostCreate
+	if err := c.BindJSON(&updateData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Post.Title must not be empty
+	if updateData.Title == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Post' Title can not be empty"})
+		return
+	}
+
+	updatedPost, err := services.PostUpdate(id, updateData)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"post": updatedPost,
+	})
+}

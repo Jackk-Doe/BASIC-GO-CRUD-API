@@ -19,7 +19,7 @@ type Post struct {
 	UpdatedAt time.Time `json:"update_at"`
 }
 
-// [PostCreate] when a Post is created from POST method
+// [PostCreate] when a Post is created from POST & PUT method
 type PostCreate struct {
 	Title string `json:"title"`
 	Body  string `json:"body"`

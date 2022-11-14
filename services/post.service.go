@@ -4,6 +4,7 @@ import (
 	"errors"
 	"jackk-doe/go-crud-api/initializers"
 	"jackk-doe/go-crud-api/models"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -41,4 +42,17 @@ func PostGetOneById(id string) (models.Post, error) {
 	}
 
 	return post, nil
+}
+
+func PostUpdate(id string, updateData models.PostCreate) (models.Post, error) {
+	currentPost, err := PostGetOneById(id)
+	if err != nil {
+		return currentPost, errors.New(err.Error())
+	}
+
+	if result := initializers.DB.Model(&currentPost).Updates(models.Post{Title: updateData.Title, Body: updateData.Body, UpdatedAt: time.Now()}); result.Error != nil {
+		return currentPost, errors.New("Update a post of " + id + " failed")
+	}
+
+	return currentPost, nil
 }
