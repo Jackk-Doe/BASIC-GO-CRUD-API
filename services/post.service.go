@@ -16,3 +16,14 @@ func PostCreate(datas models.PostCreate) (models.Post, error) {
 
 	return post, nil
 }
+
+func PostGetAll() ([]models.Post, error) {
+	var posts []models.Post
+	result := initializers.DB.Find(&posts)
+
+	if result.Error != nil {
+		return nil, errors.New(result.Error.Error())
+	}
+
+	return posts, nil
+}

@@ -9,7 +9,6 @@ import (
 )
 
 func PostCreate(c *gin.Context) {
-
 	var post models.PostCreate
 
 	if err := c.BindJSON(&post); err != nil {
@@ -33,4 +32,15 @@ func PostCreate(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"post": createdPost,
 	})
+}
+
+func PostGetAll(c *gin.Context) {
+	posts, err := services.PostGetAll()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"posts": posts})
 }
