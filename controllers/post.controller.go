@@ -81,3 +81,13 @@ func PostUpdate(c *gin.Context) {
 		"post": updatedPost,
 	})
 }
+
+func PostDelete(c *gin.Context) {
+	id := c.Param("id")
+	if err := services.PostDelete(id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Deleted success"})
+}

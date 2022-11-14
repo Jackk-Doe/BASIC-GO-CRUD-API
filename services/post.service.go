@@ -56,3 +56,14 @@ func PostUpdate(id string, updateData models.PostCreate) (models.Post, error) {
 
 	return currentPost, nil
 }
+
+func PostDelete(id string) error {
+	post, err := PostGetOneById(id)
+	if err != nil {
+		return errors.New(err.Error())
+	}
+
+	initializers.DB.Delete(&post)
+
+	return nil
+}

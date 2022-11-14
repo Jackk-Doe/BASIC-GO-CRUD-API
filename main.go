@@ -34,6 +34,7 @@ func main() {
 	r.GET("/post", controllers.PostGetAll)
 	r.GET("/post/:id", controllers.PostGetOneById)
 	r.PUT("/post/:id", controllers.PostUpdate)
+	r.DELETE("/post/:id", controllers.PostDelete)
 
 	r.Run(":" + port)
 }
