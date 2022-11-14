@@ -2,6 +2,7 @@ package main
 
 import (
 	"jackk-doe/go-crud-api/initializers"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,11 +16,18 @@ func init() {
 // NOTE : Suggest debug with 'CompileDaemon -command="./go-crud-api"' command
 
 func main() {
+
+	// Set Port
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
 	r := gin.Default()
 
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{"Test": "Hello Go!"})
 	})
 
-	r.Run()
+	r.Run(":" + port)
 }
