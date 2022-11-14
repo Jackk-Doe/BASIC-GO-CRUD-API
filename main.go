@@ -32,6 +32,7 @@ func main() {
 
 	r.POST("/post", controllers.PostCreate)
 	r.GET("/post", controllers.PostGetAll)
+	r.GET("/post/:id", controllers.PostGetOneById)
 
 	r.Run(":" + port)
 }

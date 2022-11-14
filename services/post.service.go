@@ -4,6 +4,8 @@ import (
 	"errors"
 	"jackk-doe/go-crud-api/initializers"
 	"jackk-doe/go-crud-api/models"
+
+	"gorm.io/gorm"
 )
 
 func PostCreate(datas models.PostCreate) (models.Post, error) {
@@ -26,4 +28,17 @@ func PostGetAll() ([]models.Post, error) {
 	}
 
 	return posts, nil
+}
+
+func PostGetOneById(id string) (models.Post, error) {
+	var post models.Post
+
+	if result := initializers.DB.Where("id = ?", id).First(&post); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return post, errors.New("Given Id is not found")
+		}
+		return post, errors.New(result.Error.Error())
+	}
+
+	return post, nil
 }

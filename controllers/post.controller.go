@@ -44,3 +44,13 @@ func PostGetAll(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"posts": posts})
 }
+
+func PostGetOneById(c *gin.Context) {
+	id := c.Param("id")
+	post, err := services.PostGetOneById(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"post": post})
+}
