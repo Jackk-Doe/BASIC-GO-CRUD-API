@@ -16,12 +16,6 @@ func PostCreate(c *gin.Context) {
 		return
 	}
 
-	// Post.Title must not be empty
-	if post.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Post' Title can not be empty"})
-		return
-	}
-
 	createdPost, err := services.PostCreate(post)
 
 	if err != nil {
@@ -61,12 +55,6 @@ func PostUpdate(c *gin.Context) {
 	var updateData models.PostCreate
 	if err := c.BindJSON(&updateData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	// Post.Title must not be empty
-	if updateData.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Post' Title can not be empty"})
 		return
 	}
 
