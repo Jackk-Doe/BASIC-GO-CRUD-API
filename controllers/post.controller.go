@@ -25,7 +25,7 @@ func PostCreate(c *gin.Context) {
 	createdPost, err := services.PostCreate(post)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -38,7 +38,7 @@ func PostGetAll(c *gin.Context) {
 	posts, err := services.PostGetAll()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
