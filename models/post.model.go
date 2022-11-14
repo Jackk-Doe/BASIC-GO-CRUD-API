@@ -7,9 +7,8 @@ import (
 /// Old Version
 // type Post struct {
 // 	gorm.Model
-// 	ID    int `json:"id" gorm:"primary_key"`
-// 	Title string `json:"title"`
-// 	Body  string `json:"body"`
+// 	Title string
+// 	Body  string
 // }
 
 type Post struct {
