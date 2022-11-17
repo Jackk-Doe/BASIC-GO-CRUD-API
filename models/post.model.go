@@ -12,11 +12,11 @@ import (
 // }
 
 type Post struct {
-	ID        uint      `json:"id" gorm:"primary_key"`
+	ID        uint      `json:"id" gorm:"primarKey"`
 	Title     string    `json:"title"`
 	Body      string    `json:"body"`
-	CreatedAt time.Time `json:"create_at"`
-	UpdatedAt time.Time `json:"update_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // [PostCreate] when a Post is created from POST & PUT method
