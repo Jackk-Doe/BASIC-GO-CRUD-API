@@ -4,33 +4,32 @@ import (
 	"time"
 )
 
-/// Old Version
-// type Post struct {
-// 	gorm.Model
-// 	Title string
-// 	Body  string
-// }
-
+// [Post] for interact with database,
+// for safety DO NOT return this struct to client
 type Post struct {
-	ID        uint      `json:"id" gorm:"primary_key"`
+	ID        uint `gorm:"primarKey"`
+	Title     string
+	Body      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+// [PostInputForm] when a Post is created from POST & PUT method
+type PostInputForm struct {
+	Title string `json:"title" binding:"required"`
+	Body  string `json:"body" binding:"required"`
+}
+
+// [PostDTO] for datas transfer object (sending to clients)
+type PostDTO struct {
+	ID        uint      `json:"id"`
 	Title     string    `json:"title"`
 	Body      string    `json:"body"`
-	CreatedAt time.Time `json:"create_at"`
-	UpdatedAt time.Time `json:"update_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// [PostCreate] when a Post is created from POST & PUT method
-type PostCreate struct {
-	Title string `json:"title"`
-	Body  string `json:"body"`
+// Convert from [Post] struct to [PostDTO] struct
+func (p *Post) ToDto() PostDTO {
+	return PostDTO{p.ID, p.Title, p.Body, p.CreatedAt, p.UpdatedAt}
 }
-
-// TODO : use [PostRead] instead of [Post] to return posts data
-// [PostRead] when a server recieved query GET method
-// type PostRead struct {
-// 	ID    string `json:"id" gorm:"primary_key"`
-// 	Title string `json:"title"`
-// 	Body  string `json:"body"`
-// 	CreatedAt time.Time `json:"createAt"`
-// 	UpdatedAt time.Time `json:"updatedAt"`
-// }
