@@ -2,7 +2,7 @@ package services
 
 import (
 	"errors"
-	"jackk-doe/go-crud-api/initializers"
+	"jackk-doe/go-crud-api/database"
 	"jackk-doe/go-crud-api/models"
 	"time"
 
@@ -11,7 +11,8 @@ import (
 
 func PostCreate(datas models.PostCreate) (models.Post, error) {
 	post := models.Post{Title: datas.Title, Body: datas.Body}
-	result := initializers.DB.Create(&post)
+	dbIns := database.GetDB()
+	result := dbIns.Create(&post)
 
 	if result.Error != nil {
 		return models.Post{}, errors.New(result.Error.Error())
@@ -22,7 +23,8 @@ func PostCreate(datas models.PostCreate) (models.Post, error) {
 
 func PostGetAll() ([]models.Post, error) {
 	var posts []models.Post
-	result := initializers.DB.Find(&posts)
+	dbIns := database.GetDB()
+	result := dbIns.Find(&posts)
 
 	if result.Error != nil {
 		return nil, errors.New(result.Error.Error())
@@ -33,8 +35,9 @@ func PostGetAll() ([]models.Post, error) {
 
 func PostGetOneById(id string) (models.Post, error) {
 	var post models.Post
+	dbIns := database.GetDB()
 
-	if result := initializers.DB.Where("id = ?", id).First(&post); result.Error != nil {
+	if result := dbIns.Where("id = ?", id).First(&post); result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return post, errors.New("Given Id is not found")
 		}
@@ -45,12 +48,13 @@ func PostGetOneById(id string) (models.Post, error) {
 }
 
 func PostUpdate(id string, updateData models.PostCreate) (models.Post, error) {
+	dbIns := database.GetDB()
 	currentPost, err := PostGetOneById(id)
 	if err != nil {
 		return currentPost, errors.New(err.Error())
 	}
 
-	if result := initializers.DB.Model(&currentPost).Updates(models.Post{Title: updateData.Title, Body: updateData.Body, UpdatedAt: time.Now()}); result.Error != nil {
+	if result := dbIns.Model(&currentPost).Updates(models.Post{Title: updateData.Title, Body: updateData.Body, UpdatedAt: time.Now()}); result.Error != nil {
 		return currentPost, errors.New("Update a post of " + id + " failed")
 	}
 
@@ -58,12 +62,13 @@ func PostUpdate(id string, updateData models.PostCreate) (models.Post, error) {
 }
 
 func PostDelete(id string) error {
+	dbIns := database.GetDB()
 	post, err := PostGetOneById(id)
 	if err != nil {
 		return errors.New(err.Error())
 	}
 
-	initializers.DB.Delete(&post)
+	dbIns.Delete(&post)
 
 	return nil
 }

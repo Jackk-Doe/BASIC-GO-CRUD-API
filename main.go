@@ -2,6 +2,7 @@ package main
 
 import (
 	"jackk-doe/go-crud-api/controllers"
+	"jackk-doe/go-crud-api/database"
 	"jackk-doe/go-crud-api/initializers"
 	"os"
 
@@ -11,7 +12,8 @@ import (
 func init() {
 	// Load .env & Connect to DB, init() runs before main()
 	initializers.LoadEnvVariables()
-	initializers.ConnectToDB()
+
+	database.Init()
 }
 
 // NOTE : Suggest debug with 'CompileDaemon -command="./go-crud-api"' command
