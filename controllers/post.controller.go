@@ -23,8 +23,11 @@ func PostCreate(c *gin.Context) {
 		return
 	}
 
+	// Convert to PostDTO
+	postDto := createdPost.ToDto()
+
 	c.JSON(http.StatusCreated, gin.H{
-		"post": createdPost,
+		"post": postDto,
 	})
 }
 
@@ -36,7 +39,13 @@ func PostGetAll(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"posts": posts})
+	// Convert to list of Post DTO
+	postsDto := make([]models.PostDTO, len(posts))
+	for i, post := range posts {
+		postsDto[i] = post.ToDto()
+	}
+
+	c.JSON(http.StatusOK, gin.H{"posts": postsDto})
 }
 
 func PostGetOneById(c *gin.Context) {
@@ -46,7 +55,9 @@ func PostGetOneById(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"post": post})
+	// Convert to PostDTO
+	postDto := post.ToDto()
+	c.JSON(http.StatusOK, gin.H{"post": postDto})
 }
 
 func PostUpdate(c *gin.Context) {
@@ -59,14 +70,16 @@ func PostUpdate(c *gin.Context) {
 	}
 
 	updatedPost, err := services.PostUpdate(id, updateData)
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
+	// Convert to PostDTO
+	postDto := updatedPost.ToDto()
+
 	c.JSON(http.StatusCreated, gin.H{
-		"post": updatedPost,
+		"post": postDto,
 	})
 }
 
