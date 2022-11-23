@@ -4,13 +4,6 @@ import (
 	"time"
 )
 
-/// Old Version
-// type Post struct {
-// 	gorm.Model
-// 	Title string
-// 	Body  string
-// }
-
 type Post struct {
 	ID        uint      `json:"id" gorm:"primarKey"`
 	Title     string    `json:"title"`
@@ -19,8 +12,8 @@ type Post struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// [PostCreate] when a Post is created from POST & PUT method
-type PostCreate struct {
+// [PostInputForm] when a Post is created from POST & PUT method
+type PostInputForm struct {
 	Title string `json:"title" binding:"required"`
 	Body  string `json:"body" binding:"required"`
 }

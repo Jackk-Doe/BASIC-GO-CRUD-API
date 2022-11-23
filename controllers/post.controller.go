@@ -9,7 +9,7 @@ import (
 )
 
 func PostCreate(c *gin.Context) {
-	var post models.PostCreate
+	var post models.PostInputForm
 
 	if err := c.BindJSON(&post); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -52,7 +52,7 @@ func PostGetOneById(c *gin.Context) {
 func PostUpdate(c *gin.Context) {
 	id := c.Param("id")
 
-	var updateData models.PostCreate
+	var updateData models.PostInputForm
 	if err := c.BindJSON(&updateData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func PostCreate(datas models.PostCreate) (models.Post, error) {
+func PostCreate(datas models.PostInputForm) (models.Post, error) {
 	post := models.Post{Title: datas.Title, Body: datas.Body}
 	dbIns := database.GetDB()
 	result := dbIns.Create(&post)
@@ -47,7 +47,7 @@ func PostGetOneById(id string) (models.Post, error) {
 	return post, nil
 }
 
-func PostUpdate(id string, updateData models.PostCreate) (models.Post, error) {
+func PostUpdate(id string, updateData models.PostInputForm) (models.Post, error) {
 	dbIns := database.GetDB()
 	currentPost, err := PostGetOneById(id)
 	if err != nil {
