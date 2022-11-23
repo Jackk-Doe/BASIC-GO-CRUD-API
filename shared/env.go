@@ -12,3 +12,11 @@ func GetDBURL() string {
 	}
 	return dbUrl
 }
+
+func GetPORT() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		return "3000"
+	}
+	return port
+}
