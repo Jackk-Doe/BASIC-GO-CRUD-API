@@ -15,7 +15,7 @@ var db *gorm.DB
 // Get the Database instance via this function
 func GetDB() *gorm.DB {
 	if db == nil {
-		log.Fatal("Error : Database instance is not yet instanciated yet")
+		log.Fatal("Error : Database instance is not instanciated yet")
 	}
 	return db
 }
