@@ -21,7 +21,7 @@ func PostGetAll() ([]models.Post, error) {
 	var posts []models.Post
 	dbIns := database.GetDB()
 	if err := dbIns.Find(&posts).Error; err != nil {
-		return []models.Post{}, err
+		return nil, err
 	}
 
 	return posts, nil

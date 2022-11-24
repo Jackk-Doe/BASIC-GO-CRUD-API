@@ -20,3 +20,11 @@ func GetPORT() string {
 	}
 	return port
 }
+
+func GetSQLiteFile() string {
+	dbFile := os.Getenv("SQLITE_FILE")
+	if dbFile == "" {
+		log.Fatal("Error : SQLITE_FILE in .env is not found")
+	}
+	return dbFile
+}
