@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -35,5 +36,25 @@ func migrateDBModels() {
 
 func Init() {
 	connectToDB()
+	migrateDBModels()
+}
+
+/**
+* The belows are for Unit Tests related
+*
+* Note : for unit testing, create & use Sqlite as database, instead PostgreSQL
+**/
+
+func createSQLiteDB() {
+	dbFile := shared.GetSQLiteFile()
+	var err error
+	db, err = gorm.Open(sqlite.Open(dbFile), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Error : Fail to open SQLite database")
+	}
+}
+
+func InitSQLite() {
+	createSQLiteDB()
 	migrateDBModels()
 }
