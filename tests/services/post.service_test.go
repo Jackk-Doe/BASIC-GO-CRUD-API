@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPostServicesFunctions(t *testing.T) {
+func Test_Post_Services_Functions(t *testing.T) {
 
 	// Test with this mock data
 	mockInput := models.PostInputForm{Title: "Test title", Body: "This is a body of Test Post"}
