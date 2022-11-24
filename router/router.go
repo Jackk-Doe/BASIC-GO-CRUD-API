@@ -1,10 +1,11 @@
 package router
 
 import (
-	"jackk-doe/go-crud-api/controllers"
-	"jackk-doe/go-crud-api/shared"
 	"log"
 	"net/http"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/controllers"
+	"github.com/Jackk-Doe/basic-go-crud-api/shared"
 
 	"github.com/gin-gonic/gin"
 )

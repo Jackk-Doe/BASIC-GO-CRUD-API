@@ -1,10 +1,11 @@
 package services_test
 
 import (
-	"jackk-doe/go-crud-api/models"
-	"jackk-doe/go-crud-api/services"
 	"strconv"
 	"testing"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
+	"github.com/Jackk-Doe/basic-go-crud-api/services"
 
 	"github.com/stretchr/testify/assert"
 )

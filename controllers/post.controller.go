@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"jackk-doe/go-crud-api/models"
-	"jackk-doe/go-crud-api/services"
 	"net/http"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
+	"github.com/Jackk-Doe/basic-go-crud-api/services"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,4 +1,4 @@
-module jackk-doe/go-crud-api
+module github.com/Jackk-Doe/basic-go-crud-api
 
 go 1.19
 

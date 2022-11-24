@@ -2,9 +2,10 @@ package services
 
 import (
 	"errors"
-	"jackk-doe/go-crud-api/database"
-	"jackk-doe/go-crud-api/models"
 	"time"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/database"
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
 )
 
 func PostCreate(datas models.PostInputForm) (models.Post, error) {
