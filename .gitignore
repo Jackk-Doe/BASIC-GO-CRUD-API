@@ -3,6 +3,7 @@
 # Extra added
 .env
 go-crud-api
+tests.db
 
 .DS_Store
 *.[56789ao]
