@@ -39,7 +39,7 @@ func PostGetOneById(id string) (models.Post, error) {
 		return models.Post{}, errors.New("A Post with given ID is not found")
 	}
 
-	return post, errors.New("Test pushing ERROR")
+	return post, nil
 }
 
 func PostUpdate(id string, updateData models.PostInputForm) (models.Post, error) {
