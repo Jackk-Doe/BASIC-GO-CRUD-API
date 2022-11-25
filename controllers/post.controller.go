@@ -17,6 +17,16 @@ func PostCreate(c *gin.Context) {
 		return
 	}
 
+	// Check if the input Title is already existed
+	if titleExisted, err := services.TitleExisted(post.Title); titleExisted == true {
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "The Title is already existed"})
+		return
+	}
+
 	createdPost, err := services.PostCreate(post)
 
 	if err != nil {
@@ -67,6 +77,16 @@ func PostUpdate(c *gin.Context) {
 	var updateData models.PostInputForm
 	if err := c.BindJSON(&updateData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if the input Title is already existed
+	if titleExisted, err := services.TitleExisted(updateData.Title); titleExisted == true {
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "The Title is already existed"})
 		return
 	}
 
