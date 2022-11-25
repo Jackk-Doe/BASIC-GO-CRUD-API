@@ -7,8 +7,8 @@ import (
 // [Post] for interact with database,
 // for safety DO NOT return this struct to client
 type Post struct {
-	ID        uint `gorm:"primarKey"`
-	Title     string
+	ID        uint   `gorm:"primarKey"`
+	Title     string `gorm:"unique"`
 	Body      string
 	CreatedAt time.Time
 	UpdatedAt time.Time

@@ -73,3 +73,15 @@ func PostDelete(id string) error {
 
 	return nil
 }
+
+func TitleExisted(title string) (bool, error) {
+	dbIns := database.GetDB()
+	result := dbIns.Where("title = ?", title).Find(&models.Post{})
+	if result.Error != nil {
+		return true, result.Error //! Error : Finding
+	}
+	if result.RowsAffected > 0 {
+		return true, nil //Already EXISTED
+	}
+	return false, nil //Not found
+}
