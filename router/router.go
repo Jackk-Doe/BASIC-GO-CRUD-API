@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Jackk-Doe/basic-go-crud-api/controllers"
+	"github.com/Jackk-Doe/basic-go-crud-api/middlewares"
 	"github.com/Jackk-Doe/basic-go-crud-api/shared"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,7 @@ func setUpRouter() {
 	userRouter := router.Group("/user")
 	userRouter.POST("/sign-up", controllers.UserSignUp)
 	userRouter.POST("/log-in", controllers.UserLogIn)
-	// TODO : Get data via Token route
+	userRouter.GET("/me", middlewares.AuthViaJWT, controllers.GetMe)
 
 	/// Set up Port
 	router.Run(":" + port)
