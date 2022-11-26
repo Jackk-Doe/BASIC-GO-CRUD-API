@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -38,6 +39,11 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	idString := uuid.New().String()
 	u.ID = idString
 	return
+}
+
+// Check password matching, if SUCCESS : return nil || FAIL : return error
+func (u *User) PasswordMatchCheck(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 }
 
 // To convert from [User] to [UserDTO], with input token string
