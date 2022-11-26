@@ -33,9 +33,9 @@ type PostDTO struct {
 }
 
 // This function is run before [Post] is created into database
-func (u *Post) BeforeCreate(tx *gorm.DB) (err error) {
+func (p *Post) BeforeCreate(tx *gorm.DB) (err error) {
 	idString := uuid.New().String()
-	u.ID = idString
+	p.ID = idString
 	return
 }
 

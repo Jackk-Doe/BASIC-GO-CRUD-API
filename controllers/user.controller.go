@@ -98,7 +98,7 @@ func UserLogIn(c *gin.Context) {
 	// Convert to UserDTO, before sending
 	userDto := user.ToUserDTO(token)
 
-	c.JSON(http.StatusCreated, gin.H{"user": userDto})
+	c.JSON(http.StatusOK, gin.H{"user": userDto})
 }
 
 func GetMe(c *gin.Context) {
