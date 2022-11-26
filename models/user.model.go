@@ -20,6 +20,12 @@ type UserSignUpForm struct {
 	Password string `json:"password" binding:"required,min=8"`
 }
 
+// For User Log-In form receiving
+type UserLogInForm struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8"`
+}
+
 // For sending to backend caller
 type UserDTO struct {
 	Email string `json:"email" binding:"required"`
