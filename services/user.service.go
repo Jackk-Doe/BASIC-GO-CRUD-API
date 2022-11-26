@@ -37,6 +37,16 @@ func UserGetViaName(name string) (models.User, bool, error) {
 	return user, true, nil //FOUND
 }
 
+func UserGetViaID(id string) (models.User, bool, error) {
+	var user models.User
+	dbIns := database.GetDB()
+	result := dbIns.Where("id = ?", id).Find(&user)
+	if result.RowsAffected < 1 {
+		return models.User{}, false, result.Error
+	}
+	return user, true, result.Error
+}
+
 func UserCreate(email, name, password string) (models.User, error) {
 	user := models.User{Email: email, Name: name, Password: password}
 	dbIns := database.GetDB()
