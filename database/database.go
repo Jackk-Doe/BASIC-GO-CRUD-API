@@ -33,6 +33,7 @@ func connectToDB() {
 
 func migrateDBModels() {
 	db.AutoMigrate(&models.Post{})
+	db.AutoMigrate(&models.User{})
 }
 
 func Init() {
