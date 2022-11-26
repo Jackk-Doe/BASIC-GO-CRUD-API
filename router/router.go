@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Jackk-Doe/basic-go-crud-api/controllers"
+	"github.com/Jackk-Doe/basic-go-crud-api/middlewares"
 	"github.com/Jackk-Doe/basic-go-crud-api/shared"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,12 @@ func setUpRouter() {
 	postRouter.POST("", controllers.PostCreate)
 	postRouter.PUT("/:id", controllers.PostUpdate)
 	postRouter.DELETE("/:id", controllers.PostDelete)
+
+	/// User related routes
+	userRouter := router.Group("/user")
+	userRouter.POST("/sign-up", controllers.UserSignUp)
+	userRouter.POST("/log-in", controllers.UserLogIn)
+	userRouter.GET("/me", middlewares.AuthViaJWT, controllers.GetMe)
 
 	/// Set up Port
 	router.Run(":" + port)
