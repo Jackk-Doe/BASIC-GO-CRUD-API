@@ -14,13 +14,10 @@ func UserGetViaEmail(email string) (models.User, bool, error) {
 	var user models.User
 	dbIns := database.GetDB()
 	result := dbIns.Where("email = ?", email).Find(&user)
-	if result.Error != nil {
-		return models.User{}, false, result.Error //! DB error
-	}
 	if result.RowsAffected < 1 {
-		return models.User{}, false, nil //NOT FOUND
+		return models.User{}, false, result.Error //NOT FOUND
 	}
-	return user, true, nil //FOUND
+	return user, true, result.Error //FOUND
 }
 
 // Find User via input name; if found return : User, bool: True, err: nil
@@ -28,13 +25,10 @@ func UserGetViaName(name string) (models.User, bool, error) {
 	var user models.User
 	dbIns := database.GetDB()
 	result := dbIns.Where("name = ?", name).Find(&user)
-	if result.Error != nil {
-		return models.User{}, false, result.Error //! DB error
-	}
 	if result.RowsAffected < 1 {
-		return models.User{}, false, nil //NOT FOUND
+		return models.User{}, false, result.Error //NOT FOUND
 	}
-	return user, true, nil //FOUND
+	return user, true, result.Error //FOUND
 }
 
 func UserGetViaID(id string) (models.User, bool, error) {
