@@ -100,3 +100,36 @@ func UserLogIn(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"user": userDto})
 }
+
+func GetMe(c *gin.Context) {
+	userId, isFoundID := c.Get("user_id")
+	if isFoundID == false {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Field [user_id] can not be found inside the request",
+		})
+		return
+	}
+
+	// NOTE : Convert form any -> string
+	convertedUserId := userId.(string)
+
+	// Get User via ID, also check User existing
+	user, isFoundUser, findErr := services.UserGetViaID(convertedUserId)
+	if findErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": findErr.Error(),
+		})
+		return
+	}
+	if isFoundUser == false {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "User with the given ID is not found",
+		})
+		return
+	}
+
+	// Convert to UserDTONoToken, before sending
+	userDto := user.ToUserDTONoToken()
+
+	c.JSON(http.StatusOK, gin.H{"user": userDto})
+}
