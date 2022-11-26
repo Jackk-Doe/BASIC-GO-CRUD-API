@@ -30,6 +30,12 @@ func setUpRouter() {
 	postRouter.PUT("/:id", controllers.PostUpdate)
 	postRouter.DELETE("/:id", controllers.PostDelete)
 
+	/// User related routes
+	userRouter := router.Group("/user")
+	userRouter.POST("/sign-up", controllers.UserSignUp)
+	// TODO : Log In route
+	// TODO : Get data via Token route
+
 	/// Set up Port
 	router.Run(":" + port)
 }
