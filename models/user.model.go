@@ -34,6 +34,12 @@ type UserDTO struct {
 	Token string `json:"jwt" binding:"required"`
 }
 
+// For sending to caller, NOT include Token
+type UserDTONoToken struct {
+	Email string `json:"email" binding:"required"`
+	Name  string `json:"name" binding:"required"`
+}
+
 // This function is run before [Post] is created into database
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	idString := uuid.New().String()
@@ -49,4 +55,9 @@ func (u *User) PasswordMatchCheck(password string) error {
 // To convert from [User] to [UserDTO], with input token string
 func (u *User) ToUserDTO(token string) UserDTO {
 	return UserDTO{Email: u.Email, Name: u.Name, Token: token}
+}
+
+// To convert from [User] to [UserDTONoToken]
+func (u *User) ToUserDTONoToken() UserDTONoToken {
+	return UserDTONoToken{Email: u.Email, Name: u.Name}
 }
