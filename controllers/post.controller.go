@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"jackk-doe/go-crud-api/models"
-	"jackk-doe/go-crud-api/services"
 	"net/http"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
+	"github.com/Jackk-Doe/basic-go-crud-api/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,16 @@ func PostCreate(c *gin.Context) {
 
 	if err := c.BindJSON(&post); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if the input Title is already existed
+	if titleExisted, err := services.TitleExisted(post.Title); titleExisted == true {
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "The Title is already existed"})
 		return
 	}
 
@@ -66,6 +77,16 @@ func PostUpdate(c *gin.Context) {
 	var updateData models.PostInputForm
 	if err := c.BindJSON(&updateData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Check if the input Title is already existed
+	if titleExisted, err := services.TitleExisted(updateData.Title); titleExisted == true {
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "The Title is already existed"})
 		return
 	}
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"jackk-doe/go-crud-api/database"
-	"jackk-doe/go-crud-api/initializers"
-	"jackk-doe/go-crud-api/router"
+	"github.com/Jackk-Doe/basic-go-crud-api/database"
+	"github.com/Jackk-Doe/basic-go-crud-api/initializers"
+	"github.com/Jackk-Doe/basic-go-crud-api/router"
 )
 
 func main() {

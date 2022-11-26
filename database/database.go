@@ -1,9 +1,10 @@
 package database
 
 import (
-	"jackk-doe/go-crud-api/models"
-	"jackk-doe/go-crud-api/shared"
 	"log"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
+	"github.com/Jackk-Doe/basic-go-crud-api/shared"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
@@ -32,6 +33,7 @@ func connectToDB() {
 
 func migrateDBModels() {
 	db.AutoMigrate(&models.Post{})
+	db.AutoMigrate(&models.User{})
 }
 
 func Init() {

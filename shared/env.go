@@ -28,3 +28,11 @@ func GetSQLiteFile() string {
 	}
 	return dbFile
 }
+
+func GetTokenSecretKey() string {
+	tokenSecretKey := os.Getenv("TOKEN_SECRET_KEY")
+	if tokenSecretKey == "" {
+		log.Fatal("Error : TOKEN_SECRET_KEY in .env is not found")
+	}
+	return tokenSecretKey
+}

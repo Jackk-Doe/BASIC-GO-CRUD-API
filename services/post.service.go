@@ -2,9 +2,10 @@ package services
 
 import (
 	"errors"
-	"jackk-doe/go-crud-api/database"
-	"jackk-doe/go-crud-api/models"
 	"time"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/database"
+	"github.com/Jackk-Doe/basic-go-crud-api/models"
 )
 
 func PostCreate(datas models.PostInputForm) (models.Post, error) {
@@ -71,4 +72,16 @@ func PostDelete(id string) error {
 	dbIns.Delete(&post)
 
 	return nil
+}
+
+func TitleExisted(title string) (bool, error) {
+	dbIns := database.GetDB()
+	result := dbIns.Where("title = ?", title).Find(&models.Post{})
+	if result.Error != nil {
+		return true, result.Error //! Error : Finding
+	}
+	if result.RowsAffected > 0 {
+		return true, nil //Already EXISTED
+	}
+	return false, nil //Not found
 }

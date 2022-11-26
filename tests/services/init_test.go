@@ -1,9 +1,10 @@
 package services_test
 
 import (
-	"jackk-doe/go-crud-api/database"
 	"log"
 	"testing"
+
+	"github.com/Jackk-Doe/basic-go-crud-api/database"
 
 	"github.com/joho/godotenv"
 )

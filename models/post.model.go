@@ -2,13 +2,16 @@ package models
 
 import (
 	"time"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 // [Post] for interact with database,
 // for safety DO NOT return this struct to client
 type Post struct {
-	ID        uint `gorm:"primarKey"`
-	Title     string
+	ID        string `gorm:"primarKey"`
+	Title     string `gorm:"unique"`
 	Body      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -22,11 +25,18 @@ type PostInputForm struct {
 
 // [PostDTO] for datas transfer object (sending to clients)
 type PostDTO struct {
-	ID        uint      `json:"id"`
+	ID        string    `json:"id"`
 	Title     string    `json:"title"`
 	Body      string    `json:"body"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// This function is run before [Post] is created into database
+func (p *Post) BeforeCreate(tx *gorm.DB) (err error) {
+	idString := uuid.New().String()
+	p.ID = idString
+	return
 }
 
 // Convert from [Post] struct to [PostDTO] struct
