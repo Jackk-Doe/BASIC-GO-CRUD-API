@@ -33,7 +33,7 @@ func setUpRouter() {
 	/// User related routes
 	userRouter := router.Group("/user")
 	userRouter.POST("/sign-up", controllers.UserSignUp)
-	// TODO : Log In route
+	userRouter.POST("/log-in", controllers.UserLogIn)
 	// TODO : Get data via Token route
 
 	/// Set up Port

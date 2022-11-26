@@ -61,6 +61,42 @@ func UserSignUp(c *gin.Context) {
 	// Convert to UserDTO, before sending
 	userDto := createdUser.ToUserDTO(token)
 
-	// TODO : return
+	c.JSON(http.StatusCreated, gin.H{"user": userDto})
+}
+
+func UserLogIn(c *gin.Context) {
+	var logInForm models.UserLogInForm
+	if bindingErr := c.BindJSON(&logInForm); bindingErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": bindingErr.Error()})
+		return
+	}
+
+	// Check User existed
+	user, isEmailExisted, emailCheckErr := services.UserGetViaEmail(logInForm.Email)
+	if emailCheckErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": emailCheckErr.Error()})
+		return
+	}
+	if isEmailExisted == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User of this Email is not yet registered"})
+		return
+	}
+
+	// Check Password matching
+	if passwordMatchErr := user.PasswordMatchCheck(logInForm.Password); passwordMatchErr != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Password is not matched"})
+		return
+	}
+
+	// Create JWT Token
+	token, tokenErr := services.TokenCreate(user.ID)
+	if tokenErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": tokenErr.Error()})
+		return
+	}
+
+	// Convert to UserDTO, before sending
+	userDto := user.ToUserDTO(token)
+
 	c.JSON(http.StatusCreated, gin.H{"user": userDto})
 }
