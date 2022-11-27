@@ -43,13 +43,8 @@ func PostGetOneById(id string) (models.Post, error) {
 	return post, nil
 }
 
-func PostUpdate(id string, updateData models.PostInputForm) (models.Post, error) {
+func PostUpdate(id string, currentPost models.Post, updateData models.PostInputForm) (models.Post, error) {
 	dbIns := database.GetDB()
-	currentPost, err := PostGetOneById(id)
-	if err != nil {
-		return currentPost, err
-	}
-
 	if err := dbIns.Model(&currentPost).Updates(
 		models.Post{
 			Title:     updateData.Title,

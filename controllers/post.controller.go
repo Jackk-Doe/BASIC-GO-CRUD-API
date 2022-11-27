@@ -108,6 +108,13 @@ func PostUpdate(c *gin.Context) {
 		return
 	}
 
+	// Check if a Post of the given id existed
+	currentPost, err := services.PostGetOneById(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// Check if the input Title is already existed
 	if titleExisted, err := services.TitleExisted(updateData.Title); titleExisted == true {
 		if err != nil {
@@ -118,7 +125,7 @@ func PostUpdate(c *gin.Context) {
 		return
 	}
 
-	updatedPost, err := services.PostUpdate(id, updateData)
+	updatedPost, err := services.PostUpdate(id, currentPost, updateData)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
