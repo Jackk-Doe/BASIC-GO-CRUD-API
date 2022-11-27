@@ -21,7 +21,7 @@ func PostCreate(datas models.PostInputForm, author models.User) (models.Post, er
 func PostGetAll() ([]models.Post, error) {
 	var posts []models.Post
 	dbIns := database.GetDB()
-	if err := dbIns.Find(&posts).Error; err != nil {
+	if err := dbIns.Model(&models.Post{}).Preload("Author").Find(&posts).Error; err != nil {
 		return nil, err
 	}
 
