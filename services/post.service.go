@@ -8,8 +8,8 @@ import (
 	"github.com/Jackk-Doe/basic-go-crud-api/models"
 )
 
-func PostCreate(datas models.PostInputForm) (models.Post, error) {
-	post := models.Post{Title: datas.Title, Body: datas.Body}
+func PostCreate(datas models.PostInputForm, author models.User) (models.Post, error) {
+	post := models.Post{Title: datas.Title, Body: datas.Body, Author: author}
 	dbIns := database.GetDB()
 	if err := dbIns.Create(&post).Error; err != nil {
 		return models.Post{}, err

@@ -48,7 +48,14 @@ func PostCreate(c *gin.Context) {
 		return
 	}
 
-	createdPost, err := services.PostCreate(post)
+	// Get User (Author) from gin Context
+	author, getAuthorErr := getUserFromGinContext(c)
+	if getAuthorErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getAuthorErr.Error()})
+		return
+	}
+
+	createdPost, err := services.PostCreate(post, author)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
