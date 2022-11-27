@@ -115,6 +115,19 @@ func PostUpdate(c *gin.Context) {
 		return
 	}
 
+	// Get User from gin Context
+	user, getAuthorErr := getUserFromGinContext(c)
+	if getAuthorErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getAuthorErr.Error()})
+		return
+	}
+
+	// Check if the the [user] is the same with the current Post.Author
+	if user.ID != currentPost.AuthorID {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User is not an Author of this Post"})
+		return
+	}
+
 	// Check if the input Title is already existed
 	if titleExisted, err := services.TitleExisted(updateData.Title); titleExisted == true {
 		if err != nil {
