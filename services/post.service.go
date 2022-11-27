@@ -31,7 +31,7 @@ func PostGetAll() ([]models.Post, error) {
 func PostGetOneById(id string) (models.Post, error) {
 	var post models.Post
 	dbIns := database.GetDB()
-	result := dbIns.Where("id = ?", id).Find(&post)
+	result := dbIns.Model(&models.Post{}).Preload("Author").Where("id = ?", id).Find(&post)
 	if result.Error != nil {
 		return models.Post{}, result.Error
 	}
