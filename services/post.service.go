@@ -9,11 +9,12 @@ import (
 )
 
 func PostCreate(datas models.PostInputForm, author models.User) (models.Post, error) {
-	post := models.Post{Title: datas.Title, Body: datas.Body, Author: author}
+	post := models.Post{Title: datas.Title, Body: datas.Body, AuthorID: author.ID}
 	dbIns := database.GetDB()
 	if err := dbIns.Create(&post).Error; err != nil {
 		return models.Post{}, err
 	}
+	post.Author = author //Attach [author] to Post.Author
 
 	return post, nil
 }
