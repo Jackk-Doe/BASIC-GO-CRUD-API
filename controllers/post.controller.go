@@ -38,6 +38,13 @@ func PostCreate(c *gin.Context) {
 		return
 	}
 
+	// Get User (Author) from gin Context
+	author, getAuthorErr := getUserFromGinContext(c)
+	if getAuthorErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getAuthorErr.Error()})
+		return
+	}
+
 	// Check if the input Title is already existed
 	if titleExisted, err := services.TitleExisted(post.Title); titleExisted == true {
 		if err != nil {
@@ -45,13 +52,6 @@ func PostCreate(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusBadRequest, gin.H{"error": "The Title is already existed"})
-		return
-	}
-
-	// Get User (Author) from gin Context
-	author, getAuthorErr := getUserFromGinContext(c)
-	if getAuthorErr != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": getAuthorErr.Error()})
 		return
 	}
 
