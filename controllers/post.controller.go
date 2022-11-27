@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/Jackk-Doe/basic-go-crud-api/models"
@@ -8,6 +9,26 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+// A Helper function to get User, via [user_id] from gin Context
+func getUserFromGinContext(c *gin.Context) (models.User, error) {
+	userId, isFoundID := c.Get("user_id")
+	if isFoundID == false {
+		return models.User{}, errors.New("Field [user_id] can not be found inside the request")
+	}
+	// NOTE : Convert form any -> string
+	convertedUserId := userId.(string)
+
+	// Get User via ID, also check User existing
+	user, isFoundUser, findErr := services.UserGetViaID(convertedUserId)
+	if findErr != nil {
+		return models.User{}, findErr
+	}
+	if isFoundUser == false {
+		return models.User{}, errors.New("User with the given ID is not found")
+	}
+	return user, nil
+}
 
 func PostCreate(c *gin.Context) {
 	var post models.PostInputForm
