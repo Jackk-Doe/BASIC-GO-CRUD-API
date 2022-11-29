@@ -58,15 +58,9 @@ func PostUpdate(id string, currentPost models.Post, updateData models.PostInputF
 	return currentPost, nil
 }
 
-func PostDelete(id string) error {
+func PostDelete(post models.Post) error {
 	dbIns := database.GetDB()
-	post, err := PostGetOneById(id)
-	if err != nil {
-		return err
-	}
-
 	dbIns.Delete(&post)
-
 	return nil
 }
 

@@ -128,7 +128,7 @@ func PostUpdate(c *gin.Context) {
 		return
 	}
 
-	// Check if the input Title is already existed
+	// Check if the updating input Title is already existed
 	if titleExisted, err := services.TitleExisted(updateData.Title); titleExisted == true {
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -154,7 +154,28 @@ func PostUpdate(c *gin.Context) {
 
 func PostDelete(c *gin.Context) {
 	id := c.Param("id")
-	if err := services.PostDelete(id); err != nil {
+
+	// Check if a Post of the given id existed
+	post, err := services.PostGetOneById(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get User from gin Context
+	user, getAuthorErr := getUserFromGinContext(c)
+	if getAuthorErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": getAuthorErr.Error()})
+		return
+	}
+
+	// Check if the caller [user] is the Post's Author
+	if user.ID != post.AuthorID {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User is not an Author of this Post"})
+		return
+	}
+
+	if err := services.PostDelete(post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
