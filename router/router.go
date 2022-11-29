@@ -27,9 +27,9 @@ func setUpRouter() {
 	postRouter := router.Group("/post")
 	postRouter.GET("", controllers.PostGetAll)
 	postRouter.GET("/:id", controllers.PostGetOneById)
-	postRouter.POST("", controllers.PostCreate)
-	postRouter.PUT("/:id", controllers.PostUpdate)
-	postRouter.DELETE("/:id", controllers.PostDelete)
+	postRouter.POST("", middlewares.AuthViaJWT, controllers.PostCreate)
+	postRouter.PUT("/:id", middlewares.AuthViaJWT, controllers.PostUpdate)
+	postRouter.DELETE("/:id", middlewares.AuthViaJWT, controllers.PostDelete)
 
 	/// User related routes
 	userRouter := router.Group("/user")

@@ -31,6 +31,7 @@ func UserGetViaName(name string) (models.User, bool, error) {
 	return user, true, result.Error //FOUND
 }
 
+// Find User via input id; if found return : User, bool: True, err: nil
 func UserGetViaID(id string) (models.User, bool, error) {
 	var user models.User
 	dbIns := database.GetDB()

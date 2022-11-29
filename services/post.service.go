@@ -8,12 +8,13 @@ import (
 	"github.com/Jackk-Doe/basic-go-crud-api/models"
 )
 
-func PostCreate(datas models.PostInputForm) (models.Post, error) {
-	post := models.Post{Title: datas.Title, Body: datas.Body}
+func PostCreate(datas models.PostInputForm, author models.User) (models.Post, error) {
+	post := models.Post{Title: datas.Title, Body: datas.Body, AuthorID: author.ID}
 	dbIns := database.GetDB()
 	if err := dbIns.Create(&post).Error; err != nil {
 		return models.Post{}, err
 	}
+	post.Author = author //Attach [author] to Post.Author
 
 	return post, nil
 }
@@ -21,7 +22,7 @@ func PostCreate(datas models.PostInputForm) (models.Post, error) {
 func PostGetAll() ([]models.Post, error) {
 	var posts []models.Post
 	dbIns := database.GetDB()
-	if err := dbIns.Find(&posts).Error; err != nil {
+	if err := dbIns.Model(&models.Post{}).Preload("Author").Find(&posts).Error; err != nil {
 		return nil, err
 	}
 
@@ -31,7 +32,7 @@ func PostGetAll() ([]models.Post, error) {
 func PostGetOneById(id string) (models.Post, error) {
 	var post models.Post
 	dbIns := database.GetDB()
-	result := dbIns.Where("id = ?", id).Find(&post)
+	result := dbIns.Model(&models.Post{}).Preload("Author").Where("id = ?", id).Find(&post)
 	if result.Error != nil {
 		return models.Post{}, result.Error
 	}
@@ -43,13 +44,8 @@ func PostGetOneById(id string) (models.Post, error) {
 	return post, nil
 }
 
-func PostUpdate(id string, updateData models.PostInputForm) (models.Post, error) {
+func PostUpdate(id string, currentPost models.Post, updateData models.PostInputForm) (models.Post, error) {
 	dbIns := database.GetDB()
-	currentPost, err := PostGetOneById(id)
-	if err != nil {
-		return currentPost, err
-	}
-
 	if err := dbIns.Model(&currentPost).Updates(
 		models.Post{
 			Title:     updateData.Title,
@@ -62,15 +58,9 @@ func PostUpdate(id string, updateData models.PostInputForm) (models.Post, error)
 	return currentPost, nil
 }
 
-func PostDelete(id string) error {
+func PostDelete(post models.Post) error {
 	dbIns := database.GetDB()
-	post, err := PostGetOneById(id)
-	if err != nil {
-		return err
-	}
-
 	dbIns.Delete(&post)
-
 	return nil
 }
 

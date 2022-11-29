@@ -13,7 +13,9 @@ import (
 * Set up database, router and environment for Unit tests in TestMain()
 **/
 func TestMain(m *testing.M) {
-	log.Println("This is TestMain() START")
+	log.Println()
+	log.Println("------> START Unit testing of Services functions...")
+	log.Println()
 
 	// Intialize .env loader
 	loadEnvTest()
@@ -23,7 +25,14 @@ func TestMain(m *testing.M) {
 
 	m.Run()
 
-	log.Println("This is TestMain() END")
+	// Drop the Post & User table
+	dbIns := database.GetDB()
+	dbIns.Exec("DROP TABLE posts")
+	dbIns.Exec("DROP TABLE users")
+
+	log.Println()
+	log.Println("------> END Unit testing of Services functions...")
+	log.Println()
 }
 
 // Since Unit uses .env.test, hence it needs different .env loader

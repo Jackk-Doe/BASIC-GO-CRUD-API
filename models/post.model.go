@@ -15,6 +15,9 @@ type Post struct {
 	Body      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	AuthorID  string
+	// Author    Author   `gorm:"foreignKey:AuthorID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` //use [AuthorID] as references
+	Author User `gorm:"foreignKey:AuthorID;references:ID"`
 }
 
 // [PostInputForm] when a Post is created from POST & PUT method
@@ -25,11 +28,12 @@ type PostInputForm struct {
 
 // [PostDTO] for datas transfer object (sending to clients)
 type PostDTO struct {
-	ID        string    `json:"id"`
-	Title     string    `json:"title"`
-	Body      string    `json:"body"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        string         `json:"id"`
+	Title     string         `json:"title"`
+	Body      string         `json:"body"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	User      UserDTONoToken `json:"user"`
 }
 
 // This function is run before [Post] is created into database
@@ -41,5 +45,5 @@ func (p *Post) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Convert from [Post] struct to [PostDTO] struct
 func (p *Post) ToDto() PostDTO {
-	return PostDTO{p.ID, p.Title, p.Body, p.CreatedAt, p.UpdatedAt}
+	return PostDTO{p.ID, p.Title, p.Body, p.CreatedAt, p.UpdatedAt, p.Author.ToUserDTONoToken()}
 }

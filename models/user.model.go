@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -40,6 +42,11 @@ type UserDTONoToken struct {
 	Name  string `json:"name" binding:"required"`
 }
 
+// Overide default To-String method
+func (u User) String() string {
+	return fmt.Sprintf("Name: %v ; Email: %v ; ID: %v", u.Name, u.Email, u.ID)
+}
+
 // This function is run before [Post] is created into database
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	idString := uuid.New().String()
@@ -47,7 +54,7 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-// Check password matching, if SUCCESS : return nil || FAIL : return error
+// Check (not-hashing) Input Password, if SUCCESS : return nil || FAIL : return error
 func (u *User) PasswordMatchCheck(password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 }
