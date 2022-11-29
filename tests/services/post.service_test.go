@@ -1,6 +1,7 @@
 package services_test
 
 import (
+	"log"
 	"testing"
 
 	"github.com/Jackk-Doe/basic-go-crud-api/models"
@@ -10,8 +11,11 @@ import (
 )
 
 func Test_Post_Services_Functions(t *testing.T) {
+	log.Println()
+	log.Println("--> START : Post Services unit tests...")
+	log.Println()
 
-	/// Mock Post data
+	/// Mock Post data Input Form
 	mockPost := models.PostInputForm{Title: "Test title", Body: "This is a body of Test Post"}
 
 	// To track if the mock data is created successfully
@@ -75,4 +79,8 @@ func Test_Post_Services_Functions(t *testing.T) {
 			assert.Equal(t, err, nil, "Delete Post by ID : Must not return Error")
 		})
 	}
+
+	log.Println()
+	log.Println("--> END : Post Services unit tests...")
+	log.Println()
 }
