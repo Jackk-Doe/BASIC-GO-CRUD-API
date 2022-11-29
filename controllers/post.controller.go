@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// A Helper function to get User, via [user_id] from gin Context
+// / A Helper function to get User, via [user_id] from gin Context
 func getUserFromGinContext(c *gin.Context) (models.User, error) {
 	userId, isFoundID := c.Get("user_id")
 	if isFoundID == false {
@@ -122,7 +122,7 @@ func PostUpdate(c *gin.Context) {
 		return
 	}
 
-	// Check if the the [user] is the same with the current Post.Author
+	// Check if the caller [user] is the same with the updating Post's Author
 	if user.ID != currentPost.AuthorID {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "User is not an Author of this Post"})
 		return
