@@ -16,25 +16,25 @@ func UserSignUp(c *gin.Context) {
 		return
 	}
 
-	// Check Email already existed
+	// Check if input Email already existed
 	_, isEmailExisted, emailCheckErr := services.UserGetViaEmail(signUpForm.Email)
 	if emailCheckErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": emailCheckErr.Error()})
 		return
 	}
 	if isEmailExisted == true {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "This is Email is already used to register"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "This Input Email is already used to register"})
 		return
 	}
 
-	// Check Name already existed
-	_, isNameExisted, emailCheckErr := services.UserGetViaEmail(signUpForm.Email)
-	if emailCheckErr != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": emailCheckErr.Error()})
+	// Check if input Name already existed
+	_, isNameExisted, nameCheckErr := services.UserGetViaName(signUpForm.Name)
+	if nameCheckErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": nameCheckErr.Error()})
 		return
 	}
 	if isNameExisted == true {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "This is Name is already taken"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "This Input Name is already taken"})
 		return
 	}
 
@@ -71,7 +71,7 @@ func UserLogIn(c *gin.Context) {
 		return
 	}
 
-	// Check User existed
+	// Check User with input Email existed
 	user, isEmailExisted, emailCheckErr := services.UserGetViaEmail(logInForm.Email)
 	if emailCheckErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": emailCheckErr.Error()})

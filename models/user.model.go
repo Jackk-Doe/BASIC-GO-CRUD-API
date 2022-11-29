@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -38,6 +40,11 @@ type UserDTO struct {
 type UserDTONoToken struct {
 	Email string `json:"email" binding:"required"`
 	Name  string `json:"name" binding:"required"`
+}
+
+// Overide default To-String method
+func (u User) String() string {
+	return fmt.Sprintf("Name: %v ; Email: %v ; ID: %v", u.Name, u.Email, u.ID)
 }
 
 // This function is run before [Post] is created into database
