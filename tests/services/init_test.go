@@ -14,7 +14,7 @@ import (
 **/
 func TestMain(m *testing.M) {
 	log.Println()
-	log.Println("--> START Unit testing of Post Services functions...")
+	log.Println("------> START Unit testing of Services functions...")
 	log.Println()
 
 	// Intialize .env loader
@@ -25,8 +25,13 @@ func TestMain(m *testing.M) {
 
 	m.Run()
 
+	// Drop the Post & User table
+	dbIns := database.GetDB()
+	dbIns.Exec("DROP TABLE posts")
+	dbIns.Exec("DROP TABLE users")
+
 	log.Println()
-	log.Println("--> END Unit testing of Post Services functions...")
+	log.Println("------> END Unit testing of Services functions...")
 	log.Println()
 }
 

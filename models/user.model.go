@@ -54,7 +54,7 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-// Check password matching, if SUCCESS : return nil || FAIL : return error
+// Check (not-hashing) Input Password, if SUCCESS : return nil || FAIL : return error
 func (u *User) PasswordMatchCheck(password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 }
