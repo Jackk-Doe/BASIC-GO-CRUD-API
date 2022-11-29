@@ -11,8 +11,8 @@ import (
 // For interaction with database only
 type User struct {
 	ID       string `gorm:"primaryKey"`
-	Email    string
-	Name     string
+	Email    string `gorm:"unique"`
+	Name     string `gorm:"unique"`
 	Password string
 }
 
