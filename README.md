@@ -25,3 +25,7 @@ NOTE : in tests, SQLite database would be created & used instead of PostgreSQL.
 
 ## About API endpoints (routes) document and explain
 Read endpoints document [here](docs/go-crud-api-endpoint-doc.pdf)
+
+
+## Database schema model (current)
+Post & User db models : [image](docs/current_database_schema_models.png)
